@@ -2,7 +2,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
 
 /**
- * Write a description of class Player here.
+ * Player moved around the world
  * 
  * @author Jerry
  * @version 3/28/23
