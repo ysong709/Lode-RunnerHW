@@ -35,25 +35,7 @@ public class Player extends Actor
         Actor touchWall = getOneObjectAtOffset(0, getImage().getHeight()/2 + 1, Wall.class); 
         return touchWall == null;
     }
-
-    public void movePlayer(){        
-        if(!isTouching(Wall.class) && !isTouching(Ladder.class) && downIsClear()){
-            isFalling = true;
-            standChanged = false;
-            fallSpeed = 3;
-            setLocation(getX(), getY() + fallSpeed);
-            setImage("player_fall.png");
-        }else if(isTouching(Wall.class) || !downIsClear()){
-            isFalling = false;
-            fallSpeed = 0;            
-            while(isTouching(Wall.class)){
-                setLocation(getX(), getY() - 1);
-            }
-            if(!standChanged){
-                setImage("player_stand.png");
-                standChanged = true;
-            }            
-        }
+    public void movement(){
         if(!isFalling || isTouching(Ladder.class)){
             if(Greenfoot.isKeyDown("left") && leftIsClear()){
                 setLocation(getX() - speed, getY());
@@ -96,13 +78,42 @@ public class Player extends Actor
                 }
                 num++;
             }
-        }
-        
-        if(getX() - getImage().getWidth()/2 < 0){
-            setLocation(getImage().getWidth()/2, getY());
-        }
-        if(getX() + getImage().getWidth()/2 > getWorld().getWidth()){
-            setLocation(getWorld().getWidth() - getImage().getWidth()/2, getY());
+        }        
+    }
+    public void checkForFall(){
+        if(!isTouching(Wall.class) && !isTouching(Ladder.class) && downIsClear()){
+            isFalling = true;
+            standChanged = false;
+            fallSpeed = 3;
+            setLocation(getX(), getY() + fallSpeed);
+            setImage("player_fall.png");
+        }else if(isTouching(Wall.class) || !downIsClear()){
+            isFalling = false;
+            fallSpeed = 0;            
+            while(isTouching(Wall.class)){
+                setLocation(getX(), getY() - 1);
+            }
+            if(!standChanged){
+                setImage("player_stand.png");
+                standChanged = true;
+            }            
+        } 
+    }
+    public void actionsOnLadderBar(){
+        if(isTouching(Bar.class)){
+            Actor barLoc = getOneIntersectingObject(Bar.class);
+            setLocation(getX(), barLoc.getY() + getImage().getHeight()/3 + 1);
+            fallSpeed = 0;
+            if(Greenfoot.isKeyDown("left") && leftIsClear()){
+                setLocation(getX() - speed, getY());
+                setImage("player_bar_hang_00.png");
+            }else if(Greenfoot.isKeyDown("right") && rightIsClear()){
+                setLocation(getX() + speed, getY());
+                setImage("player_bar_hang_01.png");
+            }else if(Greenfoot.isKeyDown("down")){
+                setLocation(getX(), getY() + speed);
+                fallSpeed = 3;
+            }
         }
         if(isTouching(Ladder.class) && !onLadder){
             Actor curLadder = getOneIntersectingObject(Ladder.class);
@@ -141,25 +152,22 @@ public class Player extends Actor
                 setLocation(curLadder.getX(), getY());
             }
         }
+    }
+    public void movePlayer(){        
+        checkForFall();
+        movement();
+        actionsOnLadderBar();
+        if(getX() - getImage().getWidth()/2 < 0){
+            setLocation(getImage().getWidth()/2, getY());
+        }
+        if(getX() + getImage().getWidth()/2 > getWorld().getWidth()){
+            setLocation(getWorld().getWidth() - getImage().getWidth()/2, getY());
+        }      
         if((isTouching(Ladder.class) && isTouching(Wall.class)) || (!isTouching(Ladder.class) && isTouching(Wall.class) || isTouching(Bar.class)) || 
             (!isTouching(Wall.class) && !isTouching(Ladder.class) || ! isTouching(Bar.class))){
             onLadder = false;
         }
-        if(isTouching(Bar.class)){
-            Actor barLoc = getOneIntersectingObject(Bar.class);
-            setLocation(getX(), barLoc.getY() + getImage().getHeight()/3 + 1);
-            fallSpeed = 0;
-            if(Greenfoot.isKeyDown("left") && leftIsClear()){
-                setLocation(getX() - speed, getY());
-                setImage("player_bar_hang_00.png");
-            }else if(Greenfoot.isKeyDown("right") && rightIsClear()){
-                setLocation(getX() + speed, getY());
-                setImage("player_bar_hang_01.png");
-            }else if(Greenfoot.isKeyDown("down")){
-                setLocation(getX(), getY() + speed);
-                fallSpeed = 3;
-            }
-        }
+        
     }
 
     public void act()

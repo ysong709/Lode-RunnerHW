@@ -7,55 +7,15 @@ import java.util.List;
  * @author Jerry
  * @version 3/28/23
  */
-public class MousePlayer extends Actor
+public class MousePlayer extends Player
 {
     /**
      * Act - do whatever the Player wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    int speed = 2;
-    int fallSpeed;
-    int num = 0;
-    int ladderNum = 0;
-    boolean isFalling = false;
-    boolean standChanged = false;
-    boolean onLadder = false;
-    boolean curOn = false;
-    public boolean leftIsClear() {
-        Actor touchWall = getOneObjectAtOffset(getImage().getHeight()/2 - 1, 0, Wall.class); 
-        return touchWall == null && getX() - getImage().getWidth()/2 > 0;
-    }
-
-    public boolean rightIsClear() {
-        Actor touchWall = getOneObjectAtOffset(1 + getImage().getWidth()/2, 0, Wall.class); 
-        return touchWall == null && getX() + getImage().getWidth()/2 < getWorld().getWidth();
-    }
-
-    public boolean downIsClear() {
-        Actor touchWall = getOneObjectAtOffset(0, getImage().getHeight()/2 + 1, Wall.class); 
-        return touchWall == null;
-    }
-    
-
-    public void movePlayer(){  
+    @Override
+    public void movement(){
         MouseInfo mouseInfo = Greenfoot.getMouseInfo();
-        if(!isTouching(Wall.class) && !isTouching(Ladder.class) && downIsClear()){
-            isFalling = true;
-            standChanged = false;
-            fallSpeed = 3;
-            setLocation(getX(), getY() + fallSpeed);
-            setImage("player_fall.png");
-        }else if(isTouching(Wall.class) || !downIsClear()){
-            isFalling = false;
-            fallSpeed = 0;            
-            while(isTouching(Wall.class)){
-                setLocation(getX(), getY() - 1);
-            }
-            if(!standChanged){
-                setImage("player_stand.png");
-                standChanged = true;
-            }            
-        }
         if(!isFalling || isTouching(Ladder.class)){
             if(mouseInfo != null && mouseInfo.getX() < getX() - getImage().getWidth()/2 && leftIsClear() && mouseInfo.getY() > getY() - getImage().getHeight()/2 && 
                 mouseInfo.getY() < getY() + getImage().getHeight()/2){
@@ -101,13 +61,10 @@ public class MousePlayer extends Actor
                 num++;
             }
         }
-        
-        if(getX() - getImage().getWidth()/2 < 0){
-            setLocation(getImage().getWidth()/2, getY());
-        }
-        if(getX() + getImage().getWidth()/2 > getWorld().getWidth()){
-            setLocation(getWorld().getWidth() - getImage().getWidth()/2, getY());
-        }
+    }
+    @Override
+    public void actionsOnLadderBar(){
+        MouseInfo mouseInfo = Greenfoot.getMouseInfo();
         if(isTouching(Ladder.class) && !onLadder){
             Actor curLadder = getOneIntersectingObject(Ladder.class);
             if(!curOn){
@@ -146,10 +103,6 @@ public class MousePlayer extends Actor
                 setLocation(curLadder.getX(), getY());
             }
         }
-        if((isTouching(Ladder.class) && isTouching(Wall.class)) || (!isTouching(Ladder.class) && isTouching(Wall.class) || isTouching(Bar.class)) || 
-            (!isTouching(Wall.class) && !isTouching(Ladder.class) || ! isTouching(Bar.class))){
-            onLadder = false;
-        }
         if(isTouching(Bar.class)){
             Actor barLoc = getOneIntersectingObject(Bar.class);
             setLocation(getX(), barLoc.getY() + getImage().getHeight()/3 + 1);
@@ -168,6 +121,7 @@ public class MousePlayer extends Actor
                 fallSpeed = 3;
             }
         }
+        
     }
 
     public void act()
