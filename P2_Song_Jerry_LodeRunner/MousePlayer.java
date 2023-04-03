@@ -13,12 +13,12 @@ public class MousePlayer extends Player
      * Act - do whatever the Player wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    @Override
-    public void movement(){
-        MouseInfo mouseInfo = Greenfoot.getMouseInfo();
+
+    public void movementPlayer(){
+        MouseInfo mouseInfo = Greenfoot.getMouseInfo();        
         if(!isFalling || isTouching(Ladder.class)){
             if(mouseInfo != null && mouseInfo.getX() < getX() - getImage().getWidth()/2 && leftIsClear() && mouseInfo.getY() > getY() - getImage().getHeight()/2 && 
-                mouseInfo.getY() < getY() + getImage().getHeight()/2){
+            mouseInfo.getY() < getY() + getImage().getHeight()/2){
                 setLocation(getX() - speed, getY());
                 if(num == 3){
                     GreenfootImage run0 = new GreenfootImage("player_run_00.png");
@@ -43,7 +43,7 @@ public class MousePlayer extends Player
                 }
                 num++;
             }else if((mouseInfo != null&& mouseInfo.getX() > getX() + getImage().getWidth()/2 && getX() + speed < getWorld().getWidth()) && 
-                        mouseInfo.getY() > getY() - getImage().getHeight()/2 && mouseInfo.getY() < getY() + getImage().getHeight()/2){
+            mouseInfo.getY() > getY() - getImage().getHeight()/2 && mouseInfo.getY() < getY() + getImage().getHeight()/2){
                 setLocation(getX() + speed, getY()); 
                 if(num == 3){
                     setImage("player_run_00.png");
@@ -61,10 +61,15 @@ public class MousePlayer extends Player
                 num++;
             }
         }
+        if(getX() - getImage().getWidth()/2 < 0){
+            setLocation(getImage().getWidth()/2, getY());
+        }
+        if(getX() + getImage().getWidth()/2 > getWorld().getWidth()){
+            setLocation(getWorld().getWidth() - getImage().getWidth()/2, getY());
+        }
     }
-    @Override
-    public void actionsOnLadderBar(){
-        MouseInfo mouseInfo = Greenfoot.getMouseInfo();
+    public void ladderBarMovement(){
+        MouseInfo mouseInfo = Greenfoot.getMouseInfo();        
         if(isTouching(Ladder.class) && !onLadder){
             Actor curLadder = getOneIntersectingObject(Ladder.class);
             if(!curOn){
@@ -77,7 +82,7 @@ public class MousePlayer extends Player
         if(onLadder){
             Actor curLadder = getOneIntersectingObject(Ladder.class);
             if(mouseInfo != null && mouseInfo.getY() > getY() + getImage().getHeight()/2 && downIsClear() && mouseInfo.getX() > getImage().getWidth()/2 - getX()
-                && mouseInfo.getX() < getImage().getWidth()/2 + getX()){
+            && mouseInfo.getX() < getImage().getWidth()/2 + getX()){
                 setLocation(getX(), getY() + speed);
                 if(ladderNum == 3){
                     setImage("player_climb_ladder.png"); 
@@ -103,29 +108,29 @@ public class MousePlayer extends Player
                 setLocation(curLadder.getX(), getY());
             }
         }
+        if((isTouching(Ladder.class) && isTouching(Wall.class)) || (!isTouching(Ladder.class) && isTouching(Wall.class) || isTouching(Bar.class)) || 
+        (!isTouching(Wall.class) && !isTouching(Ladder.class) || ! isTouching(Bar.class))){
+            onLadder = false;
+        }
         if(isTouching(Bar.class)){
             Actor barLoc = getOneIntersectingObject(Bar.class);
             setLocation(getX(), barLoc.getY() + getImage().getHeight()/3 + 1);
             fallSpeed = 0;
             if(mouseInfo != null && mouseInfo.getX() < getX() - getImage().getWidth()/2 && mouseInfo.getY() > getY() - getImage().getHeight()/2 && 
-                mouseInfo.getY() < getY() + getImage().getHeight()/2 && leftIsClear()){
+            mouseInfo.getY() < getY() + getImage().getHeight()/2 && leftIsClear()){
                 setLocation(getX() - speed, getY());
                 setImage("player_bar_hang_00.png");
             }else if((mouseInfo != null&& mouseInfo.getX() > getX() + getImage().getWidth()/2 && getX() + speed < getWorld().getWidth()) && 
-                        mouseInfo.getY() > getY() - getImage().getHeight()/2 && mouseInfo.getY() < getY() + getImage().getHeight()/2 && rightIsClear()){
+            mouseInfo.getY() > getY() - getImage().getHeight()/2 && mouseInfo.getY() < getY() + getImage().getHeight()/2 && rightIsClear()){
                 setLocation(getX() + speed, getY());
                 setImage("player_bar_hang_01.png");
             }else if(mouseInfo != null && mouseInfo.getY() > getY() + getImage().getHeight()/2 && mouseInfo.getX() > getImage().getWidth()/2 - getX()
-                && mouseInfo.getX() < getImage().getWidth()/2 + getX()){
+            && mouseInfo.getX() < getImage().getWidth()/2 + getX()){
                 setLocation(getX(), getY() + speed);
                 fallSpeed = 3;
             }
         }
-        
     }
 
-    public void act()
-    {
-        movePlayer();
-    }
+
 }
