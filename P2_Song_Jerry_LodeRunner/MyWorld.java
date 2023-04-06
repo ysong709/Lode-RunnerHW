@@ -45,6 +45,8 @@ public class MyWorld extends World
         drawBars();
         MousePlayer player2 = new MousePlayer();
         addObject(player2, wallWidth*3 + player2.getImage().getWidth(), getHeight() - wallHeight - player2.getImage().getHeight()/2);
+        Enemy enemy = new Enemy();
+        addObject(enemy, getWidth() - wallWidth, getHeight() - wallHeight*4 - enemy.getImage().getHeight());
     }
     public void drawWalls(){
         //drawRow(1, 0, 0);
