@@ -32,8 +32,8 @@ public class Enemy extends Person
     public String getCommand() {
         String ret = "";
         Player closestPlayer = getClosePlayer();
-        if (onLadder) {
-            if(closestPlayer.getY() > getY()) {
+        if (isTouching(Ladder.class)) {
+            if(closestPlayer.getY() > getY() && downIsClear()) {
                 ret = "down";
             }
             if(closestPlayer.getY() < getY()){
@@ -45,7 +45,21 @@ public class Enemy extends Person
         }
         if (closestPlayer.getX() > getX()){
             ret = "right";
-        }        
+        }
+                        
         return ret;
     }
+    @Override
+    public void setImages(){
+        run0 = "enemy_run_00.png";
+        run1 = "enemy_run_01.png";
+        run2 = "enemy_run_02.png";
+        run3 = "enemy_run_03.png";
+        barHang0 = "enemy_bar_hang_00.png";
+        barHang1 = "enemy_bar_hang_01.png";
+        Ladder = "enemy_climb_ladder.png";
+        stand = "enemy_stand.png";
+        fall = "enemy_fall.png";
+    }
+    
 }
