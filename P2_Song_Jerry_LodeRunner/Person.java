@@ -105,9 +105,9 @@ public class Person extends Actor
             Actor curLadder = getOneIntersectingObject(Ladder.class);
             if(direction.equals("down") && downIsClear()){
                 setLocation(getX(), getY() + speed);
-                if(ladderNum == 3){
+                if(ladderNum == 2){
                     setImage(Ladder); 
-                }else if(ladderNum == 6){
+                }else if(ladderNum == 4){
                     GreenfootImage reverseClimb = new GreenfootImage(Ladder);
                     reverseClimb.mirrorHorizontally();
                     setImage(reverseClimb);
@@ -116,9 +116,9 @@ public class Person extends Actor
                 ladderNum++;
                 setLocation(curLadder.getX(), getY());
             }else if(direction.equals("up")){
-                if(ladderNum == 3){
+                if(ladderNum == 2){
                     setImage(Ladder); 
-                }else if(ladderNum == 6){
+                }else if(ladderNum == 4){
                     GreenfootImage reverseClimb = new GreenfootImage(Ladder);
                     reverseClimb.mirrorHorizontally();
                     setImage(reverseClimb);
@@ -156,22 +156,22 @@ public class Person extends Actor
             String direction = getCommand();
             if(direction.equals("left") && leftIsClear()){
                 setLocation(getX() - speed, getY());
-                if(num == 3){
+                if(num == 2){
                     GreenfootImage run00 = new GreenfootImage(run0);
                     run00.mirrorHorizontally();
                     setImage(run00);
                 }
-                if(num == 6){
+                if(num == 4){
                     GreenfootImage run11 = new GreenfootImage(run1);
                     run11.mirrorHorizontally();
                     setImage(run11);
                 }
-                if(num == 9){
+                if(num == 6){
                     GreenfootImage run22 = new GreenfootImage(run2);
                     run22.mirrorHorizontally();
                     setImage(run22);
                 }
-                if(num == 12){
+                if(num == 8){
                     GreenfootImage run33 = new GreenfootImage(run3);
                     run33.mirrorHorizontally();
                     setImage(run33);
@@ -180,16 +180,16 @@ public class Person extends Actor
                 num++;
             }else if(direction.equals("right") && rightIsClear() && getX() + speed < getWorld().getWidth()){
                 setLocation(getX() + speed, getY());
-                if(num == 1){
+                if(num == 2){
                     setImage(run0);
                 }
-                if(num == 6){
+                if(num == 4){
                     setImage(run1);
                 }
-                if(num == 9){
+                if(num == 6){
                     setImage(run2);
                 }
-                if(num == 12){
+                if(num == 8){
                     setImage(run3);
                     num = 0;
                 }

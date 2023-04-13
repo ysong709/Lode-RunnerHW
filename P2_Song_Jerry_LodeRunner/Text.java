@@ -21,32 +21,37 @@ public class Text extends Actor
         text = txt;
         UpdateImage();        
     }
-    
+
     public void UpdateImage() {
         GreenfootImage image = new GreenfootImage(text, fontSize, foreground, background, outline);
         setImage(image);        
     }
-    
+
     public String getText() {
         return text;
     }
-    
+
     public void setText(String txt) {
         text = txt;
         UpdateImage();   
     }
-    
+
     public int getSize() {
         return fontSize;
     }
-    
+
     public void setSize(int size) {
         fontSize = size;
         UpdateImage();   
     }
-    
+
+    public void setColor(Color foregroundC, Color backgroundC, Color outlineC){
+        GreenfootImage image = new GreenfootImage(text, fontSize, foregroundC, backgroundC, outlineC);
+        setImage(image);
+    }
+
     public void act()
     {
-        
+
     }
 }
