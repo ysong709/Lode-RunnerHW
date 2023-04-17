@@ -86,7 +86,7 @@ public class Person extends Actor
         setImages();
         fallCheck();
         movementPlayer();
-        ladderBarMovement();  
+        ladderBarMovement(); 
     }
     
     public void ladderBarMovement(){
@@ -196,12 +196,14 @@ public class Person extends Actor
                 num++;
             }
         }
+        /*
         if(getX() - getImage().getWidth()/2 < 0){
             setLocation(getImage().getWidth()/2, getY());
         }
         if(getX() + getImage().getWidth()/2 > getWorld().getWidth()){
             setLocation(getWorld().getWidth() - getImage().getWidth()/2, getY());
         }
+        */
     }
 
     

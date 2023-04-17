@@ -12,14 +12,13 @@ public class Gold extends Actor
      * Act - do whatever the Gold wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public static int score = 0;
-    public static int getScore(){
-        return score;
-    }
     public void act()
     {
         if(isTouching(Player.class) || isTouching(MousePlayer.class)){
-            score += 250;
+            ((MyLevelWorld)getWorld()).scoreCur += 250;
+            Text txtScore = ((MyLevelWorld)getWorld()).txtScore;
+            txtScore.setText("SCORE " + ((MyLevelWorld)getWorld()).scoreCur);
+            txtScore.setLocation(txtScore.getImage().getWidth()/2, getWorld().getHeight() - txtScore.getImage().getHeight()/2);
             getWorld().removeObject(this);
         }
     }

@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class Enemy extends Person
 {
+    private static int lives = 5;
     /**
      * Act - do whatever the Enemy wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -62,4 +63,15 @@ public class Enemy extends Person
         fall = "enemy_fall.png";
     }
     
+    public void act()
+    {
+        super.act();
+        if(isTouching(Player.class) || isTouching(MousePlayer.class)){
+            int scoreCur = ((MyLevelWorld)getWorld()).scoreCur;
+            int levelCur = ((MyLevelWorld)getWorld()).levelCur;
+            int livesCur = ((MyLevelWorld)getWorld()).livesCur;
+            MyLevelWorld game = new MyLevelWorld(levelCur, scoreCur, livesCur-1);
+            Greenfoot.setWorld(game); 
+        }
+    }
 }

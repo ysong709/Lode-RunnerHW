@@ -22,7 +22,7 @@ public class Start extends Actor
     {
 
         if(Greenfoot.mouseClicked(this)){
-            MyWorld game = new MyWorld();
+            MyLevelWorld game = new MyLevelWorld();
             Greenfoot.setWorld(game); 
         }
     }
