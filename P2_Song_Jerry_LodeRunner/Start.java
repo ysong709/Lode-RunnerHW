@@ -3,8 +3,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Write a description of class Start here.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Jerry
+ * @version 4/29
  */
 public class Start extends Actor
 {
